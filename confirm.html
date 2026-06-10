@@ -13,11 +13,21 @@ body {
   margin: 0;
   padding: 20px;
   color: #222;
+  font-size: 18px;
+  line-height: 1.7;
 }
 
 h1 {
   font-size: 26px;
-  margin-bottom: 18px;
+  margin-bottom: 16px;
+}
+
+.lead {
+  background: #ffffff;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
 }
 
 .card {
@@ -67,9 +77,13 @@ h1 {
   margin-top: 14px;
 }
 
-.small {
-  font-size: 15px;
-  color: #666;
+.requested {
+  background: #f2f2f2;
+  color: #555;
+  border-radius: 10px;
+  padding: 14px;
+  margin-top: 16px;
+  font-size: 16px;
   line-height: 1.7;
 }
 </style>
@@ -104,7 +118,11 @@ async function main() {
 
   } catch (error) {
     document.getElementById("result").innerHTML =
-      "読み込みに失敗しました。<br>時間をおいて、もう一度お試しください。";
+      '<div class="card">' +
+      '申し訳ありません。<br>' +
+      '読み込みに失敗しました。<br><br>' +
+      '時間をおいて、もう一度お試しください。' +
+      '</div>';
   }
 }
 
@@ -122,13 +140,24 @@ async function loadList() {
 
   if (currentItems.length === 0) {
     document.getElementById("result").innerHTML =
-      "現在登録されているご命日情報はありません。";
+      '<div class="lead">' +
+      '現在登録されているご命日情報はありません。' +
+      '</div>';
     return;
   }
 
-  let html = "";
+  let html =
+    '<div class="lead">' +
+    'ご登録いただいている故人様のご命日情報を確認できます。<br><br>' +
+    '通知停止をご希望の場合は、各故人様の下にあるボタンから申請してください。' +
+    '</div>';
 
   currentItems.forEach((item, index) => {
+    const nextText =
+      item.nextKaiki && item.nextKaikiEra
+        ? `次回：${escapeHtml(item.nextKaiki)}（${escapeHtml(item.nextKaikiEra)}）`
+        : `次回：${escapeHtml(item.nextKaiki || "")}`;
+
     html += `
       <div class="card">
         <div class="name">故 ${escapeHtml(item.deceasedName)} 様</div>
@@ -137,21 +166,24 @@ async function loadList() {
           続柄：${escapeHtml(item.relationship)}<br>
           命日：${escapeHtml(item.deathDate)}<br>
           戒名：${escapeHtml(item.posthumousName)}<br>
-          次回年回忌：${escapeHtml(item.nextKaiki)}
+          ${nextText}
         </div>
 
-${
-  item.stopRequestStatus
-    ? `<div class="notice">通知停止申請は既に受け付け済みです。<br>お寺で確認後、順次対応いたします。</div>`
-    : `<button class="button" onclick="showStopConfirm(${index})">通知停止を申請する</button>`
-}
+        ${
+          item.stopRequestStatus
+            ? `<div class="requested">
+                通知停止申請は既に受け付けております。<br>
+                確認後、順次対応いたします。
+              </div>`
+            : `<button class="button" onclick="showStopConfirm(${index})">
+                通知停止を申請する
+              </button>`
+        }
       </div>
     `;
   });
 
-  document.getElementById("result").innerHTML =
-    html +
-    '<div class="small">※通知停止は、誤操作防止のため申請式です。申請後すぐには停止されず、お寺で確認後に対応いたします。</div>';
+  document.getElementById("result").innerHTML = html;
 }
 
 function showStopConfirm(index) {
@@ -168,7 +200,7 @@ function showStopConfirm(index) {
 
       <div class="notice">
         誤操作防止のため、申請後すぐには停止されません。<br>
-        お寺で内容を確認したうえで、リマインド停止・削除を行います。
+        内容確認後、停止処理を行います。
       </div>
 
       <button class="button" onclick="submitStopRequest(${index})">
@@ -186,9 +218,9 @@ async function submitStopRequest(index) {
   const item = currentItems[index];
 
   document.getElementById("result").innerHTML =
-    "申請を送信しています...";
+    '<div class="card">申請を送信しています...</div>';
 
-  const response = await fetch(GAS_URL, {
+  await fetch(GAS_URL, {
     method: "POST",
     mode: "no-cors",
     headers: {
@@ -216,7 +248,7 @@ async function submitStopRequest(index) {
 
       <div class="notice">
         誤操作防止のため、すぐには停止されません。<br>
-        お寺で内容を確認したうえで対応いたします。
+        内容確認後、停止処理を行います。
       </div>
 
       <button class="button cancel-button" onclick="loadList()">
