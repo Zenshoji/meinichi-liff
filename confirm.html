@@ -7,46 +7,70 @@
 <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 
 <style>
-body{
-  font-family:sans-serif;
-  background:#f7f7f7;
-  margin:0;
-  padding:20px;
+body {
+  font-family: sans-serif;
+  background: #f7f7f7;
+  margin: 0;
+  padding: 20px;
+  color: #222;
 }
 
-.card{
-  background:white;
-  border-radius:12px;
-  padding:20px;
-  margin-bottom:15px;
-  box-shadow:0 2px 8px rgba(0,0,0,.08);
+h1 {
+  font-size: 26px;
+  margin-bottom: 18px;
 }
 
-h1{
-  font-size:28px;
+.card {
+  background: white;
+  border-radius: 12px;
+  padding: 18px;
+  margin-bottom: 16px;
+  box-shadow: 0 2px 8px rgba(0,0,0,.08);
+  box-sizing: border-box;
 }
 
-.name{
-  font-size:24px;
-  font-weight:bold;
-  margin-bottom:10px;
+.name {
+  font-size: 23px;
+  font-weight: bold;
+  margin-bottom: 10px;
 }
 
-.info{
-  line-height:1.8;
+.info {
+  font-size: 18px;
+  line-height: 1.8;
 }
 
-.button{
-  display:block;
-  width:100%;
-  margin-top:15px;
-  padding:15px;
-  background:#c0392b;
-  color:white;
-  text-align:center;
-  text-decoration:none;
-  border-radius:10px;
-  font-size:18px;
+.button {
+  display: block;
+  box-sizing: border-box;
+  width: 100%;
+  margin-top: 16px;
+  padding: 14px 12px;
+  background: #c0392b;
+  color: white;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 10px;
+  font-size: 18px;
+  font-weight: bold;
+  border: none;
+}
+
+.cancel-button {
+  background: #777;
+}
+
+.notice {
+  font-size: 16px;
+  line-height: 1.7;
+  color: #555;
+  margin-top: 14px;
+}
+
+.small {
+  font-size: 15px;
+  color: #666;
+  line-height: 1.7;
 }
 </style>
 </head>
@@ -60,79 +84,157 @@ h1{
 </div>
 
 <script>
-
 const LIFF_ID = "2010257462-MdPT50cH";
 
 const GAS_URL =
 "https://script.google.com/macros/s/AKfycbySLP1fzdXimlOY2EvOe48rQNdnlAIF1Qvpx6f8LieN-m5jAh5PvtkfZkP0t0K7SSSL/exec";
 
-async function main(){
+let currentProfile = null;
+let currentItems = [];
 
-  try{
-
+async function main() {
+  try {
     await liff.init({
       liffId: LIFF_ID
     });
 
-    const profile = await liff.getProfile();
+    currentProfile = await liff.getProfile();
 
-    const userId = profile.userId;
+    await loadList();
 
-    const response = await fetch(
-      GAS_URL +
-      "?action=listDeceased&userId=" +
-      encodeURIComponent(userId)
-    );
+  } catch (error) {
+    document.getElementById("result").innerHTML =
+      "読み込みに失敗しました。<br>時間をおいて、もう一度お試しください。";
+  }
+}
 
-    const data = await response.json();
+async function loadList() {
+  const userId = currentProfile.userId;
 
-    if(data.items.length === 0){
+  const response = await fetch(
+    GAS_URL +
+    "?action=listDeceased&userId=" +
+    encodeURIComponent(userId)
+  );
 
-      document.getElementById("result").innerHTML =
+  const data = await response.json();
+  currentItems = data.items || [];
+
+  if (currentItems.length === 0) {
+    document.getElementById("result").innerHTML =
       "現在登録されているご命日情報はありません。";
+    return;
+  }
 
-      return;
-    }
+  let html = "";
 
-    let html = "";
-
-    data.items.forEach(item => {
-
-      html += `
+  currentItems.forEach((item, index) => {
+    html += `
       <div class="card">
-
-        <div class="name">
-          ${item.deceasedName}
-        </div>
+        <div class="name">故 ${escapeHtml(item.deceasedName)} 様</div>
 
         <div class="info">
-          続柄：${item.relationship}<br>
-          命日：${item.deathDate}<br>
-          戒名：${item.posthumousName}<br>
-          次回年回忌：${item.nextKaiki}
+          続柄：${escapeHtml(item.relationship)}<br>
+          命日：${escapeHtml(item.deathDate)}<br>
+          戒名：${escapeHtml(item.posthumousName)}<br>
+          次回年回忌：${escapeHtml(item.nextKaiki)}
         </div>
 
-        <a class="button">
-          通知停止を申請
-        </a>
-
+        <button class="button" onclick="showStopConfirm(${index})">
+          通知停止を申請する
+        </button>
       </div>
-      `;
-    });
+    `;
+  });
 
-    document.getElementById("result").innerHTML = html;
+  document.getElementById("result").innerHTML =
+    html +
+    '<div class="small">※通知停止は、誤操作防止のため申請式です。申請後すぐには停止されず、お寺で確認後に対応いたします。</div>';
+}
 
-  }
-  catch(error){
+function showStopConfirm(index) {
+  const item = currentItems[index];
 
-    document.getElementById("result").innerHTML =
-      "読み込みに失敗しました。";
-  }
+  document.getElementById("result").innerHTML = `
+    <div class="card">
+      <div class="name">通知停止申請</div>
 
+      <div class="info">
+        故 ${escapeHtml(item.deceasedName)} 様の<br>
+        ご命日・年回忌通知の停止を申請します。
+      </div>
+
+      <div class="notice">
+        誤操作防止のため、申請後すぐには停止されません。<br>
+        お寺で内容を確認したうえで、リマインド停止・削除を行います。
+      </div>
+
+      <button class="button" onclick="submitStopRequest(${index})">
+        この内容で申請する
+      </button>
+
+      <button class="button cancel-button" onclick="loadList()">
+        戻る
+      </button>
+    </div>
+  `;
+}
+
+async function submitStopRequest(index) {
+  const item = currentItems[index];
+
+  document.getElementById("result").innerHTML =
+    "申請を送信しています...";
+
+  const response = await fetch(GAS_URL, {
+    method: "POST",
+    mode: "no-cors",
+    headers: {
+      "Content-Type": "text/plain"
+    },
+    body: JSON.stringify({
+      action: "stopReminderRequest",
+      userId: currentProfile.userId,
+      displayName: currentProfile.displayName,
+      registrantName: item.registrantName,
+      deceasedName: item.deceasedName,
+      deathDate: item.deathDate,
+      rowNumber: item.rowNumber
+    })
+  });
+
+  document.getElementById("result").innerHTML = `
+    <div class="card">
+      <div class="name">申請を受け付けました</div>
+
+      <div class="info">
+        故 ${escapeHtml(item.deceasedName)} 様の<br>
+        通知停止申請を受け付けました。
+      </div>
+
+      <div class="notice">
+        誤操作防止のため、すぐには停止されません。<br>
+        お寺で内容を確認したうえで対応いたします。
+      </div>
+
+      <button class="button cancel-button" onclick="loadList()">
+        一覧に戻る
+      </button>
+    </div>
+  `;
+}
+
+function escapeHtml(text) {
+  if (!text) return "";
+  return String(text)
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
 }
 
 main();
-
 </script>
 
 </body>
