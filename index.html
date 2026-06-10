@@ -44,9 +44,13 @@
         });
 
         document.getElementById("result").innerHTML =
-          "LINE情報の確認が完了しました。<br><br>" +
-          "続けて、ご命日情報の登録へお進みください。<br><br>" +
-          '<a href="' + formUrlWithUserId + '" style="display:inline-block;padding:14px 20px;background:#06c755;color:white;text-decoration:none;border-radius:8px;font-size:18px;">ご命日情報を登録する</a>';
+  "LINE情報の確認が完了しました。<br><br>" +
+  "UserId確認：<br>" +
+  profile.userId +
+  "<br><br>フォームURL確認：<br>" +
+  formUrlWithUserId +
+  "<br><br>" +
+  '<a href="' + formUrlWithUserId + '" style="display:inline-block;padding:14px 20px;background:#06c755;color:white;text-decoration:none;border-radius:8px;font-size:18px;">ご命日情報を登録する</a>';
 
       } catch (error) {
         document.getElementById("result").innerHTML =
