@@ -13,13 +13,18 @@
 
     const GAS_WEB_APP_URL = "https://script.google.com/macros/s/AKfycbySLP1fzdXimlOY2EvOe48rQNdnlAIF1Qvpx6f8LieN-m5jAh5PvtkfZkP0t0K7SSSL/exec";
 
-    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfOBKw9bw9ilVcsn9uwDvcwFBMiI2H4wwfudmirgDIfoRCmTQ/viewform?usp=header";
+    const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfOBKw9bw9ilVcsn9uwDvcwFBMiI2H4wwfudmirgDIfoRCmTQ/viewform?usp=pp_url&entry.1349394608=USER_ID_TEST";
 
     async function main() {
       try {
         await liff.init({ liffId: LIFF_ID });
 
         const profile = await liff.getProfile();
+
+        const formUrlWithUserId = FORM_URL.replace(
+          "USER_ID_TEST",
+          encodeURIComponent(profile.userId)
+        );
 
         document.getElementById("result").innerHTML =
           "LINE情報を確認しました。<br><br>" +
@@ -41,7 +46,7 @@
         document.getElementById("result").innerHTML =
           "LINE情報の確認が完了しました。<br><br>" +
           "続けて、ご命日情報の登録へお進みください。<br><br>" +
-          '<a href="' + FORM_URL + '" style="display:inline-block;padding:14px 20px;background:#06c755;color:white;text-decoration:none;border-radius:8px;font-size:18px;">ご命日情報を登録する</a>';
+          '<a href="' + formUrlWithUserId + '" style="display:inline-block;padding:14px 20px;background:#06c755;color:white;text-decoration:none;border-radius:8px;font-size:18px;">ご命日情報を登録する</a>';
 
       } catch (error) {
         document.getElementById("result").innerHTML =
@@ -53,4 +58,5 @@
     main();
   </script>
 </body>
+</html>
 </html>
