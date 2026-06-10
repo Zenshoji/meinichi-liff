@@ -140,9 +140,11 @@ async function loadList() {
           次回年回忌：${escapeHtml(item.nextKaiki)}
         </div>
 
-        <button class="button" onclick="showStopConfirm(${index})">
-          通知停止を申請する
-        </button>
+${
+  item.stopRequestStatus
+    ? `<div class="notice">通知停止申請は既に受け付け済みです。<br>お寺で確認後、順次対応いたします。</div>`
+    : `<button class="button" onclick="showStopConfirm(${index})">通知停止を申請する</button>`
+}
       </div>
     `;
   });
