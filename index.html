@@ -36,9 +36,12 @@
           })
         });
 
-        document.getElementById("result").innerHTML =
-          "LINE情報の確認が完了しました。<br><br>" +
-          "続けて、ご命日情報の登録へお進みください。";
+const FORM_URL = "https://docs.google.com/forms/d/e/1FAIpQLSfOBKw9bw9ilVcsn9uwDvcwFBMiI2H4wwfudmirgDIfoRCmTQ/viewform?usp=header";
+
+document.getElementById("result").innerHTML =
+  "LINE情報の確認が完了しました。<br><br>" +
+  "続けて、ご命日情報の登録へお進みください。<br><br>" +
+  '<a href="' + FORM_URL + '" style="display:inline-block;padding:14px 20px;background:#06c755;color:white;text-decoration:none;border-radius:8px;font-size:18px;">ご命日情報を登録する</a>';
 
       } catch (error) {
         document.getElementById("result").innerHTML =
