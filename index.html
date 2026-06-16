@@ -84,7 +84,8 @@
           "下のボタンから<br>" +
           "ご命日を登録してください。" +
           '<a href="' + formUrlWithUserId + '" class="button">ご命日情報を入力する</a>' +
-          '<div class="small">※この画面では、LINE通知に必要な確認のみ行っています。</div>';
+          '<div class="small">※この画面では、LINE通知に必要な確認のみ行っています。</div>' +
+'<div class="small">登録が終わりましたら、右上の「×」を押してLINEへお戻りください。</div>';
 
         await fetch(GAS_WEB_APP_URL, {
           method: "POST",
