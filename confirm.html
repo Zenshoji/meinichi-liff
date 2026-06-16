@@ -149,7 +149,8 @@ async function loadList() {
   let html =
     '<div class="lead">' +
     '登録内容を確認できます。<br><br>' +
-    '通知を止めたい場合は下のボタンを押してください。' +
+    '通知を止めたい場合は下のボタンを押してください。<br><br>' +
+'確認が終わりましたら、右上の「×」を押してLINEへお戻りください。' +
     '</div>';
 
   currentItems.forEach((item, index) => {
@@ -250,6 +251,10 @@ async function submitStopRequest(index) {
         誤操作防止のため、すぐには停止されません。<br>
         内容確認後、停止処理を行います。
       </div>
+
+<div class="notice">
+  LINEへ戻る場合は、右上の「×」を押してください。
+</div>
 
       <button class="button cancel-button" onclick="loadList()">
         一覧に戻る
