@@ -148,8 +148,8 @@ async function loadList() {
 
   let html =
     '<div class="lead">' +
-    'ご登録いただいている故人様のご命日情報を確認できます。<br><br>' +
-    '通知停止をご希望の場合は、各故人様の下にあるボタンから申請してください。' +
+    '登録内容を確認できます。<br><br>' +
+    '通知を止めたい場合は下のボタンを押してください。' +
     '</div>';
 
   currentItems.forEach((item, index) => {
@@ -195,12 +195,12 @@ function showStopConfirm(index) {
 
       <div class="info">
         故 ${escapeHtml(item.deceasedName)} 様の<br>
-        ご命日・年回忌通知の停止を申請します。
+        通知停止を申請します。
       </div>
 
       <div class="notice">
-        誤操作防止のため、申請後すぐには停止されません。<br>
-        内容確認後、停止処理を行います。
+        すぐには停止されません。<br>
+        寺で確認してから対応します。
       </div>
 
       <button class="button" onclick="submitStopRequest(${index})">
