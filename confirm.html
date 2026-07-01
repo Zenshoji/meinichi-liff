@@ -117,13 +117,13 @@ async function main() {
     await loadList();
 
   } catch (error) {
-  document.getElementById("result").innerHTML =
-    '<div class="card">' +
-    '読み込みに失敗しました。<br><br>' +
-    'エラー内容：<br>' +
-    escapeHtml(error.message) +
-    '</div>';
-}
+    document.getElementById("result").innerHTML =
+      '<div class="card">' +
+      '読み込みに失敗しました。<br><br>' +
+      'エラー内容：<br>' +
+      escapeHtml(error.message) +
+      '</div>';
+  }
 }
 
 async function loadList() {
@@ -141,7 +141,8 @@ async function loadList() {
   if (currentItems.length === 0) {
     document.getElementById("result").innerHTML =
       '<div class="lead">' +
-      '現在登録されているご命日情報はありません。' +
+      '現在登録されているご命日情報はありません。<br><br>' +
+      'LINEへ戻る場合は、右上の「×」を押してください。' +
       '</div>';
     return;
   }
@@ -149,8 +150,8 @@ async function loadList() {
   let html =
     '<div class="lead">' +
     '登録内容を確認できます。<br><br>' +
-    '通知を止めたい場合は下のボタンを押してください。<br><br>' +
-'確認が終わりましたら、右上の「×」を押してLINEへお戻りください。' +
+    '削除したい登録は、下のボタンを押してください。<br><br>' +
+    '確認が終わりましたら、右上の「×」を押してLINEへお戻りください。' +
     '</div>';
 
   currentItems.forEach((item, index) => {
@@ -170,16 +171,9 @@ async function loadList() {
           ${nextText}
         </div>
 
-        ${
-          item.stopRequestStatus
-            ? `<div class="requested">
-                通知停止申請は既に受け付けております。<br>
-                確認後、順次対応いたします。
-              </div>`
-            : `<button class="button" onclick="showStopConfirm(${index})">
-                通知停止を申請する
-              </button>`
-        }
+        <button class="button" onclick="showDeleteConfirm(${index})">
+          この登録を削除する
+        </button>
       </div>
     `;
   });
@@ -187,80 +181,91 @@ async function loadList() {
   document.getElementById("result").innerHTML = html;
 }
 
-function showStopConfirm(index) {
+function showDeleteConfirm(index) {
   const item = currentItems[index];
 
   document.getElementById("result").innerHTML = `
     <div class="card">
-      <div class="name">通知停止申請</div>
+      <div class="name">登録を削除します</div>
 
       <div class="info">
         故 ${escapeHtml(item.deceasedName)} 様の<br>
-        通知停止を申請します。
+        登録を削除します。
       </div>
 
       <div class="notice">
-        すぐには停止されません。<br>
-        寺で確認してから対応します。
+        削除すると、<br>
+        この方のご命日通知は届きません。
       </div>
 
-      <button class="button" onclick="submitStopRequest(${index})">
-        この内容で申請する
+      <button class="button" onclick="deleteDeceased(${index})">
+        削除する
       </button>
 
       <button class="button cancel-button" onclick="loadList()">
         戻る
       </button>
+
+      <div class="notice">
+        LINEへ戻る場合は、右上の「×」を押してください。
+      </div>
     </div>
   `;
 }
 
-async function submitStopRequest(index) {
+async function deleteDeceased(index) {
   const item = currentItems[index];
 
   document.getElementById("result").innerHTML =
-    '<div class="card">申請を送信しています...</div>';
+    '<div class="card">削除しています...</div>';
 
-  await fetch(GAS_URL, {
-    method: "POST",
-    mode: "no-cors",
-    headers: {
-      "Content-Type": "text/plain"
-    },
-    body: JSON.stringify({
-      action: "stopReminderRequest",
-      userId: currentProfile.userId,
-      displayName: currentProfile.displayName,
-      registrantName: item.registrantName,
-      deceasedName: item.deceasedName,
-      deathDate: item.deathDate,
-      rowNumber: item.rowNumber
-    })
-  });
+  try {
+    await fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+        action: "deleteDeceased",
+        userId: currentProfile.userId,
+        displayName: currentProfile.displayName,
+        registrantName: item.registrantName,
+        deceasedName: item.deceasedName,
+        deathDate: item.deathDate,
+        rowNumber: item.rowNumber
+      })
+    });
 
-  document.getElementById("result").innerHTML = `
-    <div class="card">
-      <div class="name">申請を受け付けました</div>
+    document.getElementById("result").innerHTML = `
+      <div class="card">
+        <div class="name">削除しました</div>
 
-      <div class="info">
-        故 ${escapeHtml(item.deceasedName)} 様の<br>
-        通知停止申請を受け付けました。
+        <div class="info">
+          故 ${escapeHtml(item.deceasedName)} 様の<br>
+          登録を削除しました。
+        </div>
+
+        <div class="notice">
+          この方のご命日通知は届きません。<br><br>
+          LINEへ戻る場合は、右上の「×」を押してください。
+        </div>
+
+        <button class="button cancel-button" onclick="loadList()">
+          一覧に戻る
+        </button>
       </div>
+    `;
 
-      <div class="notice">
-        誤操作防止のため、すぐには停止されません。<br>
-        内容確認後、停止処理を行います。
-      </div>
-
-<div class="notice">
-  LINEへ戻る場合は、右上の「×」を押してください。
-</div>
-
-      <button class="button cancel-button" onclick="loadList()">
-        一覧に戻る
-      </button>
-    </div>
-  `;
+  } catch (error) {
+    document.getElementById("result").innerHTML =
+      '<div class="card">' +
+      '削除できませんでした。<br><br>' +
+      '時間をおいて、もう一度お試しください。' +
+      '<br><br>' +
+      '<button class="button cancel-button" onclick="loadList()">戻る</button>' +
+      '</div>';
+  }
 }
 
 function escapeHtml(text) {
