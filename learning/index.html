@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>学び｜禅昌寺</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #f7f6f2;
+      color: #333333;
+      font-family:
+        -apple-system,
+        BlinkMacSystemFont,
+        "Hiragino Kaku Gothic ProN",
+        "Hiragino Sans",
+        "Yu Gothic",
+        "Meiryo",
+        sans-serif;
+      line-height: 1.8;
+    }
+
+    .container {
+      width: 100%;
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 20px 16px 40px;
+    }
+
+    /* LINEへ戻る案内 */
+    .close-guide {
+      margin-bottom: 24px;
+      padding: 12px 14px;
+      background-color: #ffffff;
+      border-radius: 8px;
+      text-align: center;
+      font-size: 0.95rem;
+      color: #555555;
+    }
+
+    /* ページタイトル */
+    .page-header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .page-header h1 {
+      margin: 0 0 10px;
+      font-size: 1.8rem;
+      font-weight: 600;
+      letter-spacing: 0.08em;
+    }
+
+    .page-header p {
+      margin: 0;
+      font-size: 1rem;
+      color: #666666;
+    }
+
+    /* 各コンテンツ */
+    .content-card {
+      margin-bottom: 20px;
+      padding: 24px 20px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    .content-card h2 {
+      margin: 0 0 10px;
+      font-size: 1.3rem;
+      font-weight: 600;
+    }
+
+    .content-card p {
+      margin: 0 0 20px;
+      font-size: 1rem;
+      color: #555555;
+    }
+
+    /* ボタン */
+    .button {
+      display: block;
+      width: 100%;
+      padding: 14px 16px;
+      background-color: #5f6f52;
+      color: #ffffff;
+      text-align: center;
+      text-decoration: none;
+      font-size: 1.05rem;
+      font-weight: 600;
+      border-radius: 8px;
+    }
+
+    .button:active {
+      opacity: 0.8;
+    }
+
+    /* 準備中ボタン */
+    .button.disabled {
+      background-color: #aaaaaa;
+      pointer-events: none;
+    }
+
+    /* フッター */
+    footer {
+      margin-top: 36px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #777777;
+    }
+
+    /* 文字サイズを大きくしている端末への配慮 */
+    @media (max-width: 480px) {
+      .container {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .page-header h1 {
+        font-size: 1.6rem;
+      }
+
+      .content-card {
+        padding: 22px 18px;
+      }
+
+      .button {
+        padding-top: 16px;
+        padding-bottom: 16px;
+      }
+    }
+  </style>
+</head>
+
+
+<body>
+
+  <main class="container">
+
+    <!-- LINEへ戻る案内 -->
+    <div class="close-guide">
+      LINEへ戻るには、右上の「×」を押してください
+    </div>
+
+
+    <!-- ページタイトル -->
+    <header class="page-header">
+      <h1>学び</h1>
+      <p>
+        暮らしの中で、少し立ち止まって考える時間を。
+      </p>
+    </header>
+
+
+    <!-- 1分で読める読み物 -->
+    <section class="content-card">
+      <h2>1分で読める読み物</h2>
+
+      <p>
+        日々の暮らしの中にある疑問から、
+        仏教や禅の考え方を見つめます。
+      </p>
+
+      <a href="./articles/" class="button">
+        読み物を見る
+      </a>
+    </section>
+
+
+    <!-- 寺だより -->
+    <section class="content-card">
+      <h2>寺だより</h2>
+
+      <p>
+        禅昌寺からお届けする寺だよりを
+        ご覧いただけます。
+      </p>
+
+      <!-- 公開準備が整うまでは準備中 -->
+      <span class="button disabled">
+        準備中
+      </span>
+    </section>
+
+
+    <!-- フッター -->
+    <footer>
+      曹洞宗 禅昌寺
+    </footer>
+
+  </main>
+
+</body>
+</html>
