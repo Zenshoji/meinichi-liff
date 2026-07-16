@@ -46,7 +46,7 @@
 
     .back-link {
       display: inline-block;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       color: #5f6f52;
       text-decoration: none;
       font-size: 1rem;
@@ -54,58 +54,63 @@
     }
 
     .page-header {
-      text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .page-header h1 {
       margin: 0 0 10px;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
+      line-height: 1.5;
       font-weight: 600;
-      letter-spacing: 0.05em;
     }
 
     .page-header p {
       margin: 0;
-      font-size: 1rem;
       color: #666666;
+      font-size: 1rem;
+      line-height: 1.8;
     }
 
     .article-list {
       display: grid;
+      grid-template-columns: 1fr;
       gap: 16px;
     }
 
     .article-card {
       display: block;
-      padding: 20px;
+      padding: 22px 20px;
       background-color: #ffffff;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       color: #333333;
       text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .article-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
     }
 
     .article-number {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-size: 0.9rem;
       color: #888888;
     }
 
     .article-title {
-      margin: 0 0 8px;
-      font-size: 1.2rem;
+      margin: 0 0 10px;
+      font-size: 1.25rem;
+      line-height: 1.5;
       font-weight: 600;
     }
 
     .article-description {
       margin: 0;
-      font-size: 0.98rem;
-      color: #555555;
-    }
-
-    .article-card:active {
-      opacity: 0.75;
+      color: #666666;
+      font-size: 0.95rem;
+      line-height: 1.7;
     }
 
     footer {
@@ -122,11 +127,11 @@
       }
 
       .page-header h1 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
 
       .article-card {
-        padding: 18px;
+        padding: 20px 18px;
       }
     }
   </style>
@@ -146,13 +151,78 @@
 
     <header class="page-header">
       <h1>1分で読める仏教のお話</h1>
+
       <p>
-        身近な出来事や日々の疑問から、
-    仏教や禅の考え方を見つめます。
+        暮らしの中の身近な出来事から、
+        仏教や禅の教えを考える短いお話です。
       </p>
     </header>
 
     <div class="article-list">
+
+      <!-- 第5回 -->
+      <a href="./005.html" class="article-card">
+        <div class="article-number">
+          第5回
+        </div>
+
+        <h2 class="article-title">
+          ナスの牛とキュウリの馬
+        </h2>
+
+        <p class="article-description">
+          お盆に飾る「精霊馬」から、
+          亡き人を迎え、思い出す時間について考えます。
+        </p>
+      </a>
+
+      <!-- 第4回 -->
+      <a href="./004.html" class="article-card">
+        <div class="article-number">
+          第4回
+        </div>
+
+        <h2 class="article-title">
+          「まあ、いいか」は悪いこと？
+        </h2>
+
+        <p class="article-description">
+          諦めることと、手放すこと。
+          「放下」という言葉から考えます。
+        </p>
+      </a>
+
+      <!-- 第3回 -->
+      <a href="./003.html" class="article-card">
+        <div class="article-number">
+          第3回
+        </div>
+
+        <h2 class="article-title">
+          人はどうして比べてしまうのでしょう？
+        </h2>
+
+        <p class="article-description">
+          人と比べて苦しくなったとき、
+          少しだけ自分自身に目を向けてみます。
+        </p>
+      </a>
+
+      <!-- 第2回 -->
+      <a href="./002.html" class="article-card">
+        <div class="article-number">
+          第2回
+        </div>
+
+        <h2 class="article-title">
+          「忙しい」と心はどうなる？
+        </h2>
+
+        <p class="article-description">
+          忙しい毎日の中で、
+          心まで走り続けていませんか。
+        </p>
+      </a>
 
       <!-- 第1回 -->
       <a href="./001.html" class="article-card">
@@ -165,72 +235,10 @@
         </h2>
 
         <p class="article-description">
-          感謝の言葉について、少し立ち止まって考えてみます。
+          何気なく使う「ありがとう」から、
+          感謝することについて考えます。
         </p>
       </a>
-
-<!-- 第2回 -->
-<a href="./002.html" class="article-card">
-  <div class="article-number">
-    第2回
-  </div>
-
-  <h2 class="article-title">
-    「忙しい」と心はどうなる？
-  </h2>
-
-  <p class="article-description">
-    忙しい毎日の中で、心まで走り続けていませんか。
-  </p>
-</a>
-
-<!-- 第3回 -->
-<a href="./003.html" class="article-card">
-  <div class="article-number">
-    第3回
-  </div>
-
-  <h2 class="article-title">
-    人はどうして比べてしまうのでしょう？
-  </h2>
-
-  <p class="article-description">
-    人と比べて苦しくなったとき、
-    少しだけ自分自身に目を向けてみます。
-  </p>
-</a>
-
-<!-- 第4回 -->
-<a href="./004.html" class="article-card">
-  <div class="article-number">
-    第4回
-  </div>
-
-  <h2 class="article-title">
-    「まあ、いいか」は悪いこと？
-  </h2>
-
-  <p class="article-description">
-    諦めることと、手放すこと。
-    「放下」という言葉から考えます。
-  </p>
-</a>
-
-<!-- 第5回 -->
-<a href="./005.html" class="article-card">
-  <div class="article-number">
-    第5回
-  </div>
-
-  <h2 class="article-title">
-    ナスの牛とキュウリの馬
-  </h2>
-
-  <p class="article-description">
-    お盆に飾る「精霊馬」から、
-    亡き人を迎え、思い出す時間について考えます。
-  </p>
-</a>
 
     </div>
 
