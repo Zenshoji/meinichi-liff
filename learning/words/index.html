@@ -46,7 +46,7 @@
 
     .back-link {
       display: inline-block;
-      margin-bottom: 20px;
+      margin-bottom: 22px;
       color: #5f6f52;
       text-decoration: none;
       font-size: 1rem;
@@ -54,58 +54,63 @@
     }
 
     .page-header {
-      text-align: center;
-      margin-bottom: 30px;
+      margin-bottom: 28px;
     }
 
     .page-header h1 {
       margin: 0 0 10px;
-      font-size: 1.7rem;
+      font-size: 1.8rem;
+      line-height: 1.5;
       font-weight: 600;
-      letter-spacing: 0.05em;
     }
 
     .page-header p {
       margin: 0;
-      font-size: 1rem;
       color: #666666;
+      font-size: 1rem;
+      line-height: 1.8;
     }
 
     .word-list {
       display: grid;
+      grid-template-columns: 1fr;
       gap: 16px;
     }
 
     .word-card {
       display: block;
-      padding: 20px;
+      padding: 22px 20px;
       background-color: #ffffff;
       border-radius: 12px;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
       color: #333333;
       text-decoration: none;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .word-card:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
     }
 
     .word-category {
-      margin-bottom: 6px;
+      margin-bottom: 8px;
       font-size: 0.9rem;
       color: #888888;
     }
 
     .word-title {
-      margin: 0 0 8px;
+      margin: 0 0 10px;
       font-size: 1.25rem;
+      line-height: 1.5;
       font-weight: 600;
     }
 
     .word-description {
       margin: 0;
-      font-size: 0.98rem;
-      color: #555555;
-    }
-
-    .word-card:active {
-      opacity: 0.75;
+      color: #666666;
+      font-size: 0.95rem;
+      line-height: 1.7;
     }
 
     footer {
@@ -122,11 +127,11 @@
       }
 
       .page-header h1 {
-        font-size: 1.5rem;
+        font-size: 1.6rem;
       }
 
       .word-card {
-        padding: 18px;
+        padding: 20px 18px;
       }
     }
   </style>
@@ -146,77 +151,78 @@
 
     <header class="page-header">
       <h1>仏教の言葉</h1>
+
       <p>
-        仏教や禅の言葉、暮らしの中に残る言葉の
-        意味や由来をご紹介します。
+        私たちが普段何気なく使っている言葉や、
+        仏教・禅にまつわる言葉の意味や由来をたどります。
       </p>
     </header>
 
     <div class="word-list">
 
-<!-- 第1回 -->
-<a href="./001.html" class="word-card">
-  <div class="word-category">
-    暮らしの中の言葉
-  </div>
+      <!-- 第4回 -->
+      <a href="./004.html" class="word-card">
+        <div class="word-category">
+          お盆の言葉
+        </div>
 
-  <h2 class="word-title">
-    「どっこいしょ」は仏教の言葉？
-  </h2>
+        <h2 class="word-title">
+          「お盆」って、そもそも何？
+        </h2>
 
-  <p class="word-description">
-    何気なく使う「どっこいしょ」と
-    「六根清浄」の意外な関係をたどります。
-  </p>
-</a>
+        <p class="word-description">
+          目連尊者の物語から、
+          お盆と「施食」の供養についてたどります。
+        </p>
+      </a>
 
-<!-- 第2回 -->
-<a href="./002.html" class="word-card">
-  <div class="word-category">
-    身近な仏教語
-  </div>
+      <!-- 第3回 -->
+      <a href="./003.html" class="word-card">
+        <div class="word-category">
+          身近な仏教語
+        </div>
 
-  <h2 class="word-title">
-    「我慢」は、もともと良い意味ではなかった？
-  </h2>
+        <h2 class="word-title">
+          「有頂天」って、どこの天？
+        </h2>
 
-  <p class="word-description">
-    今では「耐える」という意味の「我慢」。
-    もともとの仏教での意味をたどります。
-  </p>
-</a>
+        <p class="word-description">
+          喜びの絶頂を表す「有頂天」。
+          その言葉に隠れた仏教の世界観をたどります。
+        </p>
+      </a>
 
-<!-- 第3回 -->
-<a href="./003.html" class="word-card">
-  <div class="word-category">
-    身近な仏教語
-  </div>
+      <!-- 第2回 -->
+      <a href="./002.html" class="word-card">
+        <div class="word-category">
+          身近な仏教語
+        </div>
 
-  <h2 class="word-title">
-    「有頂天」って、どこの天？
-  </h2>
+        <h2 class="word-title">
+          「我慢」は、もともと良い意味ではなかった？
+        </h2>
 
-  <p class="word-description">
-    喜びの絶頂を表す「有頂天」。
-    その言葉に隠れた仏教の世界観をたどります。
-  </p>
-</a>
+        <p class="word-description">
+          今では「耐える」という意味の「我慢」。
+          もともとの仏教での意味をたどります。
+        </p>
+      </a>
 
-<!-- 第4回 -->
-<a href="./004.html" class="word-card">
-  <div class="word-category">
-    お盆の言葉
-  </div>
+      <!-- 第1回 -->
+      <a href="./001.html" class="word-card">
+        <div class="word-category">
+          暮らしの中の言葉
+        </div>
 
-  <h2 class="word-title">
-    「お盆」って、そもそも何？
-  </h2>
+        <h2 class="word-title">
+          「どっこいしょ」は仏教の言葉？
+        </h2>
 
-  <p class="word-description">
-    目連尊者の物語から、
-    お盆と「施食」の供養についてたどります。
-  </p>
-</a>
+        <p class="word-description">
+          何気なく使う「どっこいしょ」と
+          「六根清浄」の意外な関係をたどります。
+        </p>
+      </a>
 
     </div>
 
