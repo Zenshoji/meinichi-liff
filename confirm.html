@@ -22,16 +22,9 @@ h1 {
   margin-bottom: 16px;
 }
 
-.lead {
-  background: #ffffff;
-  border-radius: 12px;
-  padding: 18px;
-  margin-bottom: 16px;
-  box-shadow: 0 2px 8px rgba(0,0,0,.08);
-}
-
+.lead,
 .card {
-  background: white;
+  background: #ffffff;
   border-radius: 12px;
   padding: 18px;
   margin-bottom: 16px;
@@ -66,6 +59,10 @@ h1 {
   border: none;
 }
 
+.settings-button {
+  background: #2f7d4a;
+}
+
 .cancel-button {
   background: #777;
 }
@@ -77,14 +74,47 @@ h1 {
   margin-top: 14px;
 }
 
-.requested {
-  background: #f2f2f2;
-  color: #555;
+.setting-summary {
+  font-size: 20px;
+  font-weight: bold;
+  margin-top: 6px;
+}
+
+.setting-group {
+  margin-top: 22px;
+  padding-top: 18px;
+  border-top: 1px solid #ddd;
+}
+
+.setting-title {
+  font-size: 19px;
+  font-weight: bold;
+  margin-bottom: 8px;
+}
+
+.choice {
+  display: block;
+  padding: 8px 0;
+  font-size: 18px;
+}
+
+.choice input {
+  transform: scale(1.3);
+  margin-right: 10px;
+}
+
+.warning {
+  background: #fff4f2;
   border-radius: 10px;
   padding: 14px;
   margin-top: 16px;
+  color: #7c2d25;
   font-size: 16px;
   line-height: 1.7;
+}
+
+.hidden {
+  display: none;
 }
 </style>
 </head>
@@ -105,6 +135,12 @@ const GAS_URL =
 
 let currentProfile = null;
 let currentItems = [];
+let currentSettings = {
+  enabled: "通知する",
+  frequency: "毎年",
+  timing: "当日",
+  time: "朝"
+};
 
 async function main() {
   try {
@@ -113,8 +149,7 @@ async function main() {
     });
 
     currentProfile = await liff.getProfile();
-
-    await loadList();
+    await loadPage();
 
   } catch (error) {
     document.getElementById("result").innerHTML =
@@ -126,33 +161,61 @@ async function main() {
   }
 }
 
-async function loadList() {
+async function loadPage() {
   const userId = currentProfile.userId;
 
-  const response = await fetch(
+  const listResponse = await fetch(
     GAS_URL +
     "?action=listDeceased&userId=" +
     encodeURIComponent(userId)
   );
 
-  const data = await response.json();
-  currentItems = data.items || [];
+  const listData = await listResponse.json();
+  currentItems = listData.items || [];
+
+  const settingsResponse = await fetch(
+    GAS_URL +
+    "?action=getNotificationSettings&userId=" +
+    encodeURIComponent(userId)
+  );
+
+  const settingsData = await settingsResponse.json();
+
+  if (settingsData.success && settingsData.settings) {
+    currentSettings = settingsData.settings;
+  } else {
+    // 既存利用者で設定欄が空欄の場合も、この既定値で表示する。
+    // この時点では台帳へ書き込まない。
+    currentSettings = {
+      enabled: "通知する",
+      frequency: "毎年",
+      timing: "当日",
+      time: "朝"
+    };
+  }
+
+  renderPage();
+}
+
+function renderPage() {
+  let html = '';
 
   if (currentItems.length === 0) {
-    document.getElementById("result").innerHTML =
+    html +=
       '<div class="lead">' +
       '現在登録されているご命日情報はありません。<br><br>' +
       'LINEへ戻る場合は、右上の「×」を押してください。' +
       '</div>';
-    return;
+  } else {
+    html +=
+      '<div class="lead">' +
+      '登録内容を確認できます。<br><br>' +
+      '削除したい登録は、下のボタンを押してください。<br><br>' +
+      '確認が終わりましたら、右上の「×」を押してLINEへお戻りください。' +
+      '</div>';
   }
 
-  let html =
-    '<div class="lead">' +
-    '登録内容を確認できます。<br><br>' +
-    '削除したい登録は、下のボタンを押してください。<br><br>' +
-    '確認が終わりましたら、右上の「×」を押してLINEへお戻りください。' +
-    '</div>';
+  html += notificationSettingsCardHtml();
 
   currentItems.forEach((item, index) => {
     const nextText =
@@ -181,6 +244,201 @@ async function loadList() {
   document.getElementById("result").innerHTML = html;
 }
 
+function notificationSettingsCardHtml() {
+  const summary = currentSettings.enabled === "通知しない"
+    ? "通知しない"
+    : `${escapeHtml(currentSettings.frequency)}・${escapeHtml(currentSettings.timing)}・${escapeHtml(currentSettings.time)}`;
+
+  return `
+    <div class="card">
+      <div class="name">通知設定</div>
+      <div class="setting-summary">${summary}</div>
+      <div class="notice">
+        この設定は、現在登録されているすべての故人に共通して適用されます。
+      </div>
+      <button class="button settings-button" onclick="showNotificationSettings()">
+        通知設定を変更する
+      </button>
+    </div>
+  `;
+}
+
+function showNotificationSettings() {
+  const enabled = currentSettings.enabled;
+
+  document.getElementById("result").innerHTML = `
+    <div class="card">
+      <div class="name">通知設定を変更する</div>
+
+      <div class="notice">
+        この設定は、現在登録されているすべての故人に共通して適用されます。
+      </div>
+
+      <div class="setting-group">
+        <div class="setting-title">通知を受け取る</div>
+        ${radioHtml("enabled", "通知する", enabled)}
+        ${radioHtml("enabled", "通知しない", enabled)}
+      </div>
+
+      <div id="detailSettings" class="${enabled === '通知しない' ? 'hidden' : ''}">
+        <div class="setting-group">
+          <div class="setting-title">祥月命日の通知</div>
+          ${radioHtml("frequency", "毎年", currentSettings.frequency)}
+          ${radioHtml("frequency", "法事年のみ", currentSettings.frequency)}
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-title">いつ通知しますか？</div>
+          ${radioHtml("timing", "1週間前", currentSettings.timing)}
+          ${radioHtml("timing", "前日", currentSettings.timing)}
+          ${radioHtml("timing", "当日", currentSettings.timing)}
+        </div>
+
+        <div class="setting-group">
+          <div class="setting-title">通知する時間帯</div>
+          ${radioHtml("time", "朝", currentSettings.time)}
+          ${radioHtml("time", "昼", currentSettings.time)}
+          ${radioHtml("time", "晩", currentSettings.time)}
+        </div>
+
+        <div class="notice">
+          年回忌にあたる年は、上記とは別に3か月前にもお知らせします。
+        </div>
+      </div>
+
+      <div id="stopWarning" class="warning ${enabled === '通知しない' ? '' : 'hidden'}">
+        「通知しない」を選ぶと、祥月命日のお知らせや年回忌3か月前のお知らせを含む、すべての通知が停止します。
+      </div>
+
+      <button class="button settings-button" onclick="saveNotificationSettings()">
+        この内容で変更する
+      </button>
+
+      <button class="button cancel-button" onclick="renderPage()">
+        戻る
+      </button>
+    </div>
+  `;
+
+  document.querySelectorAll('input[name="enabled"]').forEach((input) => {
+    input.addEventListener('change', toggleNotificationDetails);
+  });
+}
+
+function radioHtml(name, value, selected) {
+  const checked = value === selected ? 'checked' : '';
+  return `
+    <label class="choice">
+      <input type="radio" name="${name}" value="${escapeHtml(value)}" ${checked}>
+      ${escapeHtml(value)}
+    </label>
+  `;
+}
+
+function toggleNotificationDetails() {
+  const enabled = getSelectedValue('enabled');
+  const detail = document.getElementById('detailSettings');
+  const warning = document.getElementById('stopWarning');
+
+  if (enabled === '通知しない') {
+    detail.classList.add('hidden');
+    warning.classList.remove('hidden');
+  } else {
+    detail.classList.remove('hidden');
+    warning.classList.add('hidden');
+  }
+}
+
+async function saveNotificationSettings() {
+  const enabled = getSelectedValue('enabled');
+
+  const settings = {
+    enabled: enabled,
+    // 「通知しない」の時も現在値を保持して送る。
+    frequency: getSelectedValue('frequency') || currentSettings.frequency,
+    timing: getSelectedValue('timing') || currentSettings.timing,
+    time: getSelectedValue('time') || currentSettings.time
+  };
+
+  document.getElementById("result").innerHTML =
+    '<div class="card">通知設定を変更しています...</div>';
+
+  try {
+    await fetch(GAS_URL, {
+      method: "POST",
+      mode: "no-cors",
+      headers: {
+        "Content-Type": "text/plain"
+      },
+      body: JSON.stringify({
+        action: "saveNotificationSettings",
+        userId: currentProfile.userId,
+        enabled: settings.enabled,
+        frequency: settings.frequency,
+        timing: settings.timing,
+        time: settings.time
+      })
+    });
+
+    // no-cors POST は応答内容を読めないため、GETで保存結果を再確認する。
+    const verifyResponse = await fetch(
+      GAS_URL +
+      "?action=getNotificationSettings&userId=" +
+      encodeURIComponent(currentProfile.userId) +
+      "&_=" + Date.now()
+    );
+
+    const verifyData = await verifyResponse.json();
+
+    if (!verifyData.success || !verifyData.settings) {
+      throw new Error('保存結果を確認できませんでした。');
+    }
+
+    const saved = verifyData.settings;
+    if (
+      saved.enabled !== settings.enabled ||
+      saved.frequency !== settings.frequency ||
+      saved.timing !== settings.timing ||
+      saved.time !== settings.time
+    ) {
+      throw new Error('保存内容が一致しませんでした。');
+    }
+
+    currentSettings = saved;
+
+    const summary = currentSettings.enabled === "通知しない"
+      ? "通知しない"
+      : `${escapeHtml(currentSettings.frequency)}／${escapeHtml(currentSettings.timing)}／${escapeHtml(currentSettings.time)}`;
+
+    document.getElementById("result").innerHTML = `
+      <div class="card">
+        <div class="name">通知設定を変更しました</div>
+        <div class="setting-summary">${summary}</div>
+        <button class="button cancel-button" onclick="renderPage()">
+          登録内容確認に戻る
+        </button>
+      </div>
+    `;
+
+  } catch (error) {
+    document.getElementById("result").innerHTML = `
+      <div class="card">
+        <div class="name">変更できませんでした</div>
+        <div class="notice">
+          通知設定は変更されていません。<br><br>
+          時間をおいて、もう一度お試しください。
+        </div>
+        <button class="button cancel-button" onclick="loadPage()">戻る</button>
+      </div>
+    `;
+  }
+}
+
+function getSelectedValue(name) {
+  const element = document.querySelector(`input[name="${name}"]:checked`);
+  return element ? element.value : '';
+}
+
 function showDeleteConfirm(index) {
   const item = currentItems[index];
 
@@ -202,7 +460,7 @@ function showDeleteConfirm(index) {
         削除する
       </button>
 
-      <button class="button cancel-button" onclick="loadList()">
+      <button class="button cancel-button" onclick="renderPage()">
         戻る
       </button>
 
@@ -251,7 +509,7 @@ async function deleteDeceased(index) {
           LINEへ戻る場合は、右上の「×」を押してください。
         </div>
 
-        <button class="button cancel-button" onclick="loadList()">
+        <button class="button cancel-button" onclick="loadPage()">
           一覧に戻る
         </button>
       </div>
@@ -263,7 +521,7 @@ async function deleteDeceased(index) {
       '削除できませんでした。<br><br>' +
       '時間をおいて、もう一度お試しください。' +
       '<br><br>' +
-      '<button class="button cancel-button" onclick="loadList()">戻る</button>' +
+      '<button class="button cancel-button" onclick="loadPage()">戻る</button>' +
       '</div>';
   }
 }
