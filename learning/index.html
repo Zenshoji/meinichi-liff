@@ -35,6 +35,7 @@
     }
 
     .close-guide {
+      display: none;
       margin-bottom: 24px;
       padding: 12px 14px;
       background-color: #ffffff;
@@ -102,6 +103,28 @@
     .button.disabled {
       background-color: #aaaaaa;
       pointer-events: none;
+    }
+
+
+    .home-link-area {
+      margin-top: 30px;
+      text-align: center;
+    }
+
+    .home-link {
+      display: inline-block;
+      padding: 11px 18px;
+      border: 1px solid #5f6f52;
+      border-radius: 8px;
+      color: #5f6f52;
+      background-color: #ffffff;
+      text-decoration: none;
+      font-size: 0.98rem;
+      font-weight: 600;
+    }
+
+    .home-link:hover {
+      background-color: #f0f2ed;
     }
 
     footer {
@@ -188,11 +211,37 @@
       </a>
     </section>
 
+
+    <div class="home-link-area">
+      <a
+        href="https://zenshoji.github.io/zenshoji-site/"
+        class="home-link"
+      >
+        禅昌寺ホームページへ戻る
+      </a>
+    </div>
+
     <footer>
       曹洞宗 禅昌寺
     </footer>
 
   </main>
+
+
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      const userAgent = navigator.userAgent || "";
+      const isLineBrowser = /Line\/[0-9.]+/i.test(userAgent);
+
+      if (isLineBrowser) {
+        document
+          .querySelectorAll(".close-guide")
+          .forEach(function (element) {
+            element.style.display = "block";
+          });
+      }
+    });
+  </script>
 
 </body>
 </html>
