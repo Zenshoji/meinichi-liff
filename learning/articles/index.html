@@ -3,267 +3,104 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
   <title>1分で読める仏教のお話｜禅昌寺</title>
-
   <style>
-    * {
-      box-sizing: border-box;
-    }
-
+    * { box-sizing: border-box; }
     body {
-      margin: 0;
-      padding: 0;
-      background-color: #f7f6f2;
-      color: #333333;
-      font-family:
-        -apple-system,
-        BlinkMacSystemFont,
-        "Hiragino Kaku Gothic ProN",
-        "Hiragino Sans",
-        "Yu Gothic",
-        "Meiryo",
-        sans-serif;
+      margin: 0; padding: 0; background-color: #f7f6f2; color: #333333;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Kaku Gothic ProN", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
       line-height: 1.8;
     }
-
-    .container {
-      width: 100%;
-      max-width: 680px;
-      margin: 0 auto;
-      padding: 20px 16px 40px;
-    }
-
-    .close-guide {
-      display: none;
-      margin-bottom: 24px;
-      padding: 12px 14px;
-      background-color: #ffffff;
-      border-radius: 8px;
-      text-align: center;
-      font-size: 0.95rem;
-      color: #555555;
-    }
-
-    .back-link {
-      display: inline-block;
-      margin-bottom: 22px;
-      color: #5f6f52;
-      text-decoration: none;
-      font-size: 1rem;
-      font-weight: 600;
-    }
-
-    .page-header {
-      margin-bottom: 28px;
-    }
-
-    .page-header h1 {
-      margin: 0 0 10px;
-      font-size: 1.8rem;
-      line-height: 1.5;
-      font-weight: 600;
-    }
-
-    .page-header p {
-      margin: 0;
-      color: #666666;
-      font-size: 1rem;
-      line-height: 1.8;
-    }
-
-    .article-list {
-      display: grid;
-      grid-template-columns: 1fr;
-      gap: 16px;
-    }
-
-    .article-card {
-      display: block;
-      padding: 22px 20px;
-      background-color: #ffffff;
-      border-radius: 12px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
-      color: #333333;
-      text-decoration: none;
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
-    }
-
-    .article-card:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.09);
-    }
-
-    .article-number {
-      margin-bottom: 8px;
-      font-size: 0.9rem;
-      color: #888888;
-    }
-
-    .article-title {
-      margin: 0 0 10px;
-      font-size: 1.25rem;
-      line-height: 1.5;
-      font-weight: 600;
-    }
-
-    .article-description {
-      margin: 0;
-      color: #666666;
-      font-size: 0.95rem;
-      line-height: 1.7;
-    }
-
-    footer {
-      margin-top: 36px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #777777;
-    }
-
+    .container { width: 100%; max-width: 680px; margin: 0 auto; padding: 20px 16px 40px; }
+    .close-guide { display: none; margin-bottom: 24px; padding: 12px 14px; background-color: #ffffff; border-radius: 8px; text-align: center; font-size: 0.95rem; color: #555555; }
+    .back-link { display: inline-block; margin-bottom: 22px; color: #5f6f52; text-decoration: none; font-size: 1rem; font-weight: 600; }
+    .page-header { margin-bottom: 28px; }
+    .page-header h1 { margin: 0 0 10px; font-size: 1.8rem; line-height: 1.5; font-weight: 600; }
+    .page-header p { margin: 0; color: #666666; font-size: 1rem; line-height: 1.8; }
+    .item-list { display: grid; grid-template-columns: 1fr; gap: 16px; }
+    .item-card { display: block; padding: 22px 20px; background-color: #ffffff; border-radius: 12px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); color: #333333; text-decoration: none; transition: transform 0.2s ease, box-shadow 0.2s ease; }
+    .item-card:hover { transform: translateY(-2px); box-shadow: 0 4px 12px rgba(0,0,0,0.09); }
+    .item-meta { margin-bottom: 8px; font-size: 0.9rem; color: #888888; }
+    .item-title { margin: 0 0 10px; font-size: 1.25rem; line-height: 1.5; font-weight: 600; }
+    .item-description { margin: 0; color: #666666; font-size: 0.95rem; line-height: 1.7; }
+    footer { margin-top: 36px; text-align: center; font-size: 0.9rem; color: #777777; }
     @media (max-width: 480px) {
-      .container {
-        padding-left: 14px;
-        padding-right: 14px;
-      }
-
-      .page-header h1 {
-        font-size: 1.6rem;
-      }
-
-      .article-card {
-        padding: 20px 18px;
-      }
+      .container { padding-left: 14px; padding-right: 14px; }
+      .page-header h1 { font-size: 1.6rem; }
+      .item-card { padding: 20px 18px; }
     }
   </style>
 </head>
-
 <body>
-
   <main class="container">
-
-    <div class="close-guide">
-      LINEへ戻るには、右上の「×」を押してください
-    </div>
-
-    <a href="../" class="back-link">
-      ← 学びトップへ戻る
-    </a>
-
+    <div class="close-guide">LINEへ戻るには、右上の「×」を押してください</div>
+    <a href="../" class="back-link">← 学びトップへ戻る</a>
     <header class="page-header">
       <h1>1分で読める仏教のお話</h1>
-
-      <p>
-        暮らしの中の身近な出来事から、
-        仏教や禅の教えを考える短いお話です。
-      </p>
+      <p>暮らしの中の身近な出来事から、<br>仏教や禅の教えを考える短いお話です。</p>
     </header>
-
-    <div class="article-list">
-
+    <div class="item-list">
+      <!-- 第8回 -->
+      <a href="./008.html" class="item-card">
+        <div class="item-meta">第8回</div>
+        <h2 class="item-title">「暑さ寒さも彼岸まで」は本当？</h2>
+        <p class="item-description">津別の30年分の気温から、昔ながらのことわざを確かめます。</p>
+      </a>
+      <!-- 第7回 -->
+      <a href="./007.html" class="item-card">
+        <div class="item-meta">第7回</div>
+        <h2 class="item-title">おはぎとぼたもち、なぜ彼岸に供える？</h2>
+        <p class="item-description">お彼岸の定番「あんこ」の食べもの。その由来と呼び名をたどります。</p>
+      </a>
+      <!-- 第6回 -->
+      <a href="./006.html" class="item-card">
+        <div class="item-meta">第6回</div>
+        <h2 class="item-title">お彼岸は、いつから始まったのか</h2>
+        <p class="item-description">千年以上前の記録から、日本のお彼岸の歩みをたどります。</p>
+      </a>
       <!-- 第5回 -->
-      <a href="./005.html" class="article-card">
-        <div class="article-number">
-          第5回
-        </div>
-
-        <h2 class="article-title">
-          ナスの牛とキュウリの馬
-        </h2>
-
-        <p class="article-description">
-          お盆に飾る「精霊馬」から、
-          亡き人を迎え、思い出す時間について考えます。
-        </p>
+      <a href="./005.html" class="item-card">
+        <div class="item-meta">第5回</div>
+        <h2 class="item-title">ナスの牛とキュウリの馬</h2>
+        <p class="item-description">お盆に飾る「精霊馬」から、亡き人を迎え、思い出す時間について考えます。</p>
       </a>
-
       <!-- 第4回 -->
-      <a href="./004.html" class="article-card">
-        <div class="article-number">
-          第4回
-        </div>
-
-        <h2 class="article-title">
-          「まあ、いいか」は悪いこと？
-        </h2>
-
-        <p class="article-description">
-          諦めることと、手放すこと。
-          「放下」という言葉から考えます。
-        </p>
+      <a href="./004.html" class="item-card">
+        <div class="item-meta">第4回</div>
+        <h2 class="item-title">「まあ、いいか」は悪いこと？</h2>
+        <p class="item-description">諦めることと、手放すこと。「放下」という言葉から考えます。</p>
       </a>
-
       <!-- 第3回 -->
-      <a href="./003.html" class="article-card">
-        <div class="article-number">
-          第3回
-        </div>
-
-        <h2 class="article-title">
-          人はどうして比べてしまうのでしょう？
-        </h2>
-
-        <p class="article-description">
-          人と比べて苦しくなったとき、
-          少しだけ自分自身に目を向けてみます。
-        </p>
+      <a href="./003.html" class="item-card">
+        <div class="item-meta">第3回</div>
+        <h2 class="item-title">人はどうして比べてしまうのでしょう？</h2>
+        <p class="item-description">人と比べて苦しくなったとき、少しだけ自分自身に目を向けてみます。</p>
       </a>
-
       <!-- 第2回 -->
-      <a href="./002.html" class="article-card">
-        <div class="article-number">
-          第2回
-        </div>
-
-        <h2 class="article-title">
-          「忙しい」と心はどうなる？
-        </h2>
-
-        <p class="article-description">
-          忙しい毎日の中で、
-          心まで走り続けていませんか。
-        </p>
+      <a href="./002.html" class="item-card">
+        <div class="item-meta">第2回</div>
+        <h2 class="item-title">「忙しい」と心はどうなる？</h2>
+        <p class="item-description">忙しい毎日の中で、心まで走り続けていませんか。</p>
       </a>
-
       <!-- 第1回 -->
-      <a href="./001.html" class="article-card">
-        <div class="article-number">
-          第1回
-        </div>
-
-        <h2 class="article-title">
-          「ありがとう」は誰のため？
-        </h2>
-
-        <p class="article-description">
-          何気なく使う「ありがとう」から、
-          感謝することについて考えます。
-        </p>
+      <a href="./001.html" class="item-card">
+        <div class="item-meta">第1回</div>
+        <h2 class="item-title">「ありがとう」は誰のため？</h2>
+        <p class="item-description">何気なく使う「ありがとう」から、感謝することについて考えます。</p>
       </a>
-
     </div>
-
-    <footer>
-      曹洞宗 禅昌寺
-    </footer>
-
+    <footer>曹洞宗 禅昌寺</footer>
   </main>
-
-
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       const userAgent = navigator.userAgent || "";
       const isLineBrowser = /Line\/[0-9.]+/i.test(userAgent);
-
       if (isLineBrowser) {
-        document
-          .querySelectorAll(".close-guide")
-          .forEach(function (element) {
-            element.style.display = "block";
-          });
+        document.querySelectorAll(".close-guide").forEach(function (element) {
+          element.style.display = "block";
+        });
       }
     });
   </script>
-
 </body>
 </html>
